@@ -1,4 +1,4 @@
-# Apache Atlas RESTful API's for Metadata & Lineage Management
+# Apache Atlas RESTful API's for Metadata Management
 
 ## atlas-hive
 
