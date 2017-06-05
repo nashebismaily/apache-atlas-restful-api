@@ -36,7 +36,7 @@ unset results[0]
 for i in "${results[@]}"
 do
    GUID=$(echo $i | cut -d '"' -f2)
-   table_found=$(curl -s -u $atlas_user:$atlas_password -X GET http://$atlas_host:$atlas_port/api/atlas/entities/$GUID |jq -r '.definition.values.name' | grep $TABLE_NAME |wc -l)
+   table_found=$(curl -s -u $atlas_user:$atlas_password -X GET http://$atlas_host:$atlas_port/api/atlas/entities/$GUID |jq -r '.definition.values.name' | grep -w $TABLE_NAME |wc -l)
 
    if [ "$table_found" -gt "0" ];then
 
@@ -48,7 +48,7 @@ curl -s -u $atlas_user:$atlas_password -v -X POST -H 'Content-Type: application/
 done
 
 # Verify Table Tagged
-tag_found=$(curl -s -u $atlas_user:$atlas_password -X GET http://$atlas_host:$atlas_port/api/atlas/entities/$GUID | jq -r '.definition.traitNames' | grep $TAG  | wc -l)
+tag_found=$(curl -s -u $atlas_user:$atlas_password -X GET http://$atlas_host:$atlas_port/api/atlas/entities/$GUID | jq -r '.definition.traitNames' | grep -w $TAG  | wc -l)
 
 if [ "$tag_found" -gt "0" ];then
   echo -e "\n\nTag: $TAG successfully added to Hive Table: $TABLE_NAME"
