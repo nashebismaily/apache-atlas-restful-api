@@ -5,6 +5,8 @@
 #
 # Author: Nasheb Ismaily
 #
+# All rights reserved - Do Not Redistribute
+#
 
 # Variables
 atlas_host=sandbox.hortonworks.com
@@ -14,16 +16,16 @@ atlas_password=admin
 
 # Hive Table Name
 TABLE_NAME="employees"
+
 # Atlas Tag (assuming its been pre-created in Atlas)
 TAG="PII"
 
 ## Run the create_hive_table.sql script to create the employees table in the default Hive database ##
-## The code below will find the GUID for the newly created employees table ##
 
 # Get all entities of a particular type
 #curl -s -u $atlas_user:$atlas_password -X GET http://$atlas_host:$atlas_port/api/atlas/types
 
-# Request al entriries of hive_table type
+# Request all entriries of hive_table type
 results=( $(curl -s -u $atlas_user:$atlas_password -X GET http://$atlas_host:$atlas_port/api/atlas/entities?type=hive_table | jq -r '.results') )
 
 # Clean brackets from array
@@ -46,7 +48,6 @@ curl -s -u $atlas_user:$atlas_password -v -X POST -H 'Content-Type: application/
 done
 
 # Verify Table Tagged
-
 tag_found=$(curl -s -u $atlas_user:$atlas_password -X GET http://$atlas_host:$atlas_port/api/atlas/entities/$GUID | jq -r '.definition.traitNames' | grep $TAG  | wc -l)
 
 if [ "$tag_found" -gt "0" ];then
